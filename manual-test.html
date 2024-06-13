@@ -13,12 +13,16 @@
         border: 1px solid black;
       }
     </style>
+    <link rel="stylesheet" href="../svg.select.js/src/svg.select.css">
   </head>
 
   <body>
     <div id="drawing"></div>
 
-    <script src="https://unpkg.com/@svgdotjs/svg.js"></script>
+    <script src="../svg.js/dist/svg.min.js"></script>
+    <script src="../svg.select.js/dist/svg.select.min.js"></script>
+    <script src="../svg.resize.js/dist/svg.resize.min.js"></script>
+    <script src="../svg.panzoom.js/dist/svg.panzoom.min.js"></script>
     <script src="dist/svg.draggable.js"></script>
 
     <script>
@@ -27,21 +31,22 @@
         ghostShape,
         draw = SVG()
           .addTo('#drawing')
-          .size('100%', '400')
+          .size('100%', '100%')
           .attr({ 'font-size': 10 })
-          .fill('#f06')
+          .fill('#f06').viewbox('0 0 1000 1000')
+          .panZoom({ zoomMin: 0.5, zoomMax: 20, zoomFactor: 0.25 })
 
       /* plain draggable */
       draw
         .rect(100, 100)
-        .center(150, 150)
-        .draggable()
+        .center(150, 150).selectize().resize({ snapToGrid: 5, snapToAngle: 10 })
+        .draggable();
 
       draw.plain('just plain draggable').center(150, 210)
 
       /* grouped draggable */
       var g = draw.group().draggable()
-      g.rect(100, 100).center(400, 150)
+      g.rect(100, 100).center(400, 150).selectize().resize({ snapToGrid: 5, snapToAngle: 10 })
       g.plain('grouped draggable').center(400, 210)
 
       /* constrained with object */
@@ -140,6 +145,7 @@
       }
       g2.plain('grouped with multiple levels of draggable').center(0, 70)
       g2.move(1150, 150)
+
     </script>
   </body>
 </html>
